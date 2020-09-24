@@ -20,6 +20,7 @@ public class UserService {
     public boolean isAvailable(String userName) {
         return userMapper.getUser(userName) == null;
     }
+
     public int createUser(User user) {
         SecureRandom random = new SecureRandom();
         byte[] salt = new byte[16];
@@ -27,5 +28,9 @@ public class UserService {
         String encodedSalt = Base64.getEncoder().encodeToString(salt);
         String hashedPassword = hashService.getHashedValue(user.getPassword(), encodedSalt);
         return userMapper.insert(new User(null, user.getUsername(), encodedSalt, hashedPassword, user.getFirstName(), user.getLastName()));
+    }
+
+    public User getUserByName(String name) {
+        return userMapper.getUser(name);
     }
 }

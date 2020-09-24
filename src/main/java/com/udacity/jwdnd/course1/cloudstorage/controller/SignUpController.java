@@ -21,6 +21,7 @@ public class SignUpController {
     public String signUpView() {
         return "signup";
     }
+
     @PostMapping
     public String signup(User user, Model model) {
         String error = null;

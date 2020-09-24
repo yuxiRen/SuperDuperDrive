@@ -9,6 +9,11 @@ import java.util.List;
 @Service
 public class NoteService {
     private NoteMapper noteMapper;
+
+    public NoteService(NoteMapper noteMapper) {
+        this.noteMapper = noteMapper;
+    }
+
     public void addNote(Note note, int userId) {
         noteMapper.insertNote(note,userId);
     }
