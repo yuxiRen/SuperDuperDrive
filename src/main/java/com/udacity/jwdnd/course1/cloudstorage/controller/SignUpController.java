@@ -32,7 +32,6 @@ public class SignUpController {
         //check whether signup successfully
         if (error == null) {
             int row = userService.createUser(user);
-
             if (row < 0) {
                 error = "Signup failed!";
             }

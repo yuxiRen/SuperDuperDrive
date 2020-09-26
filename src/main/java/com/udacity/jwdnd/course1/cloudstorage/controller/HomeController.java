@@ -7,6 +7,7 @@ import com.udacity.jwdnd.course1.cloudstorage.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.security.core.Authentication;
@@ -21,14 +22,16 @@ public class HomeController {
     }
 
     @GetMapping
-    public String loginView() {
+    public String loginView(@ModelAttribute("note") Note note) {
         return "home";
     }
     @PostMapping
-    public String submitNote(Note note, Model model, Authentication authentication) {
+    public String submitNote(@ModelAttribute("note") Note note, Model model, Authentication authentication) {
         String userName = authentication.getName();
         User user = userService.getUserByName(userName);
+
         if (user != null && user.getUserId() != null) {
+            this.noteService.addNote(note,user.getUserId());
             model.addAttribute("notes",this.noteService.getNote(user.getUserId()));
         }
         return "home";
