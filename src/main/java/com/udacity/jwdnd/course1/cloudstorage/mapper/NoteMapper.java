@@ -8,7 +8,7 @@ import java.util.List;
 @Mapper
 public interface NoteMapper {
     @Select("SELECT * FROM NOTES")
-    List<Note> findAll();
+    public List<Note> findAll();
 
     @Select("SELECT * FROM NOTES WHERE noteid = #{noteid}")
     public Note findOne(int noteid);

@@ -15,8 +15,6 @@ public class NoteService {
     }
 
     public void addNote(Note note, int userId) {
-        System.out.println(note.getNotetitle());
-        System.out.println(note.getNotedescription());
         noteMapper.insertNote(note,userId);
     }
     public void deleteNote(int noteId) {
@@ -28,5 +26,4 @@ public class NoteService {
     public List<Note> getNote(int userId) {
         return noteMapper.findByUserId(userId);
     }
-
 }
