@@ -2,6 +2,7 @@ package com.udacity.jwdnd.course1.cloudstorage.service;
 
 import com.udacity.jwdnd.course1.cloudstorage.mapper.FileMapper;
 import com.udacity.jwdnd.course1.cloudstorage.model.File;
+import com.udacity.jwdnd.course1.cloudstorage.model.ResponseFile;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -14,10 +15,15 @@ import java.util.stream.Collectors;
 public class FileService {
     private FileMapper fileMapper;
 
+    public FileService(FileMapper fileMapper) {
+        this.fileMapper = fileMapper;
+    }
+
     public ResponseFile getResponseFile(File file) {
         String base64 = Base64.getEncoder().encodeToString(file.getFiledata());
         String dataURL = "data:" + file.getContenttype() + ";base64," + base64;
-        return ResponseFile.builder().fileid(file.getFileid()).filename(file.getFilename()).dataURL(dataURL).build();
+        System.out.println(dataURL);
+        return new ResponseFile(dataURL, file.getFileid(), file.getFilename());
     }
 
     public List<ResponseFile> getAllFiles(int userid) throws Exception {
