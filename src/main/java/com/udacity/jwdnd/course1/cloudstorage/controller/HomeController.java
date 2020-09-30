@@ -1,12 +1,12 @@
 package com.udacity.jwdnd.course1.cloudstorage.controller;
 
-import com.udacity.jwdnd.course1.cloudstorage.model.Credential;
-import com.udacity.jwdnd.course1.cloudstorage.model.Note;
-import com.udacity.jwdnd.course1.cloudstorage.model.User;
+import com.udacity.jwdnd.course1.cloudstorage.model.*;
 import com.udacity.jwdnd.course1.cloudstorage.service.CredentialService;
 import com.udacity.jwdnd.course1.cloudstorage.service.FileService;
 import com.udacity.jwdnd.course1.cloudstorage.service.NoteService;
 import com.udacity.jwdnd.course1.cloudstorage.service.UserService;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +14,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 
 @Controller
 public class HomeController {
@@ -51,7 +52,12 @@ public class HomeController {
         this.fileService.addFile(fileUpload, getUserId(authentication));
         return "redirect:/home";
     }
-
+    @GetMapping("/download")
+    public ResponseEntity download(@RequestParam String fileName, Authentication authentication) throws Exception {
+        List<File> files = this.fileService.getAllFiles(getUserId(authentication));
+        File file = files.stream().filter(f -> fileName.equals(f.getFilename())).findAny().orElse(null);
+        return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,"attachment;filename=\""+file.getFilename()+"\"").body(file.getFiledata());
+    }
     private Integer getUserId(Authentication authentication) {
         String userName = authentication.getName();
         User user = userService.getUserByName(userName);
