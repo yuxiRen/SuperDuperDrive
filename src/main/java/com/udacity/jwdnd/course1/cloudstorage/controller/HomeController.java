@@ -38,9 +38,11 @@ public class HomeController {
     }
     @PostMapping("/note")
     public String submitNote(@ModelAttribute("note") Note note, Model model, Authentication authentication) {
-        System.out.println(note.getNotetitle());
-        this.noteService.addNote(note,getUserId(authentication));
-        System.out.println(note.getNotedescription());
+        if (note.getNoteid() != null) {
+            this.noteService.updateNote(note);
+        } else {
+            this.noteService.addNote(note,getUserId(authentication));
+        }
         return "redirect:/home";
     }
     @GetMapping("/note/delete")
