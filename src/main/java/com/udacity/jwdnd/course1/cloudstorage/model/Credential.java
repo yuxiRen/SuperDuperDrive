@@ -35,7 +35,7 @@ public class Credential {
         this.password = password;
     }
 
-    public int getCredentialid() {
+    public Integer getCredentialid() {
         return credentialid;
     }
 

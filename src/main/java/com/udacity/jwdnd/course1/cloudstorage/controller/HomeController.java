@@ -53,7 +53,11 @@ public class HomeController {
         this.credentialService.addCredential(credential, getUserId(authentication));
         return "redirect:/home";
     }
-
+    @GetMapping("/credential/delete")
+    public String deleteCredential(@RequestParam Integer credentialId) {
+        this.credentialService.deleteCredential(credentialId);
+        return "redirect:/home";
+    }
     @PostMapping("/file-upload")
     public String uploadFile(@RequestParam("fileUpload") MultipartFile fileUpload, Model model, Authentication authentication) throws IOException {
         this.fileService.addFile(fileUpload, getUserId(authentication));
