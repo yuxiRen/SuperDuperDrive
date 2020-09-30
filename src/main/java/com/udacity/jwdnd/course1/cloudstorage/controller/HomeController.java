@@ -38,7 +38,14 @@ public class HomeController {
     }
     @PostMapping("/note")
     public String submitNote(@ModelAttribute("note") Note note, Model model, Authentication authentication) {
+        System.out.println(note.getNotetitle());
         this.noteService.addNote(note,getUserId(authentication));
+        System.out.println(note.getNotedescription());
+        return "redirect:/home";
+    }
+    @GetMapping("/note/delete")
+    public String deleteNote(@RequestParam Integer noteId) {
+        this.noteService.deleteNote(noteId);
         return "redirect:/home";
     }
     @PostMapping("/credential")
@@ -59,7 +66,7 @@ public class HomeController {
         return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,"attachment;filename=\""+file.getFilename()+"\"").body(file.getFiledata());
     }
 
-    @GetMapping("/delete")
+    @GetMapping("/file/delete")
     public String deleteFile(@RequestParam Integer fileId) {
         this.fileService.deleteFile(fileId);
         return "redirect:/home";

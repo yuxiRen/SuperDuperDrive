@@ -13,7 +13,7 @@ public class Note {
         this.userId = userId;
     }
 
-    public void setNoteid(int noteid) {
+    public void setNoteid(Integer noteid) {
         this.noteid = noteid;
     }
 
