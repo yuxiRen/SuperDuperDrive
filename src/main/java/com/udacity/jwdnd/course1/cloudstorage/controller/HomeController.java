@@ -58,6 +58,13 @@ public class HomeController {
         File file = files.stream().filter(f -> fileName.equals(f.getFilename())).findAny().orElse(null);
         return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,"attachment;filename=\""+file.getFilename()+"\"").body(file.getFiledata());
     }
+
+    @GetMapping("/delete")
+    public String deleteFile(@RequestParam Integer fileId) {
+        this.fileService.deleteFile(fileId);
+        return "redirect:/home";
+    }
+
     private Integer getUserId(Authentication authentication) {
         String userName = authentication.getName();
         User user = userService.getUserByName(userName);
