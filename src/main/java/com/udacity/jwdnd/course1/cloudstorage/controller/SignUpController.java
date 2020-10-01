@@ -40,7 +40,8 @@ public class SignUpController {
             model.addAttribute("signUpSuccess", true);
         } else {
             model.addAttribute("signUpError", error);
+            return "redirect:signup?error";
         }
-        return "signup";
+        return "redirect:signup?success";
     }
 }
