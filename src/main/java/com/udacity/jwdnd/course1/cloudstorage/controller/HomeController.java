@@ -52,7 +52,12 @@ public class HomeController {
     }
     @PostMapping("/credential")
     public String submitCredential(@ModelAttribute("credential") Credential credential, Model model, Authentication authentication) {
-        this.credentialService.addCredential(credential, getUserId(authentication));
+        System.out.println("IIIIIIII"+credential.getCredentialid());
+        if (credential.getCredentialid() != null) {
+            this.credentialService.updateCredential(credential);
+        } else {
+            this.credentialService.addCredential(credential, getUserId(authentication));
+        }
         return "redirect:/home";
     }
     @GetMapping("/credential/delete")
