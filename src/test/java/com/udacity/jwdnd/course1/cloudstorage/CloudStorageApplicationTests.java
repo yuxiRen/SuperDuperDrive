@@ -60,7 +60,7 @@ class CloudStorageApplicationTests {
 	@Test
 	public void newUserAccessTest() {
 		WebDriverWait wait = new WebDriverWait(driver, 30);
-		// signup
+		// Signup
 		driver.get("http://localhost:" + this.port + "/signup");
 		WebElement inputFirstName = driver.findElement(By.id("inputFirstName"));
 		inputFirstName.sendKeys(firstName);
@@ -73,5 +73,24 @@ class CloudStorageApplicationTests {
 		WebElement signUpButton = driver.findElement(By.id("signup"));
 		signUpButton.click();
 
+		//Login
+		driver.get("http://localhost:" + this.port + "/login");
+		inputUsername = driver.findElement(By.id("inputUsername"));
+		inputUsername.sendKeys(userName);
+		inputPassword = driver.findElement(By.id("inputPassword"));
+		inputPassword.sendKeys(password);
+		WebElement loginButton = driver.findElement(By.id("login"));
+		loginButton.click();
+		Assertions.assertEquals("Home", driver.getTitle());
+
+		//Logout
+		WebElement logoutButton = driver.findElement(By.id("logout"));
+		logoutButton.click();
+		wait.until(ExpectedConditions.elementToBeClickable(By.id("login")));
+		Assertions.assertEquals("Login", driver.getTitle());
+
+		//Unauthorized Access Restrictions
+		driver.get("http://localhost:" + this.port + "/home");
+		Assertions.assertEquals("Login", driver.getTitle());
 	}
 }
