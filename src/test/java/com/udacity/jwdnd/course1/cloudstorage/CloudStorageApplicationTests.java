@@ -4,6 +4,7 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -12,7 +13,13 @@ import org.springframework.boot.web.server.LocalServerPort;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class CloudStorageApplicationTests {
-
+	private static String firstName = "rita";
+	private static String lastName = "ren";
+	private static String userName = "reny";
+	private static String password = "123";
+	private static String noteTitle = "example note";
+	private static String noteDescription = "example note description";
+	private static String credentialURL = "www.exampleCredentialURL.com";
 	@LocalServerPort
 	private int port;
 
@@ -50,5 +57,21 @@ class CloudStorageApplicationTests {
 		driver.get("http://localhost:" + this.port + "/signup");
 		Assertions.assertEquals("Sign Up", driver.getTitle());
 	}
+	@Test
+	public void newUserAccessTest() {
+		WebDriverWait wait = new WebDriverWait(driver, 30);
+		// signup
+		driver.get("http://localhost:" + this.port + "/signup");
+		WebElement inputFirstName = driver.findElement(By.id("inputFirstName"));
+		inputFirstName.sendKeys(firstName);
+		WebElement inputLastName = driver.findElement(By.id("inputLastName"));
+		inputLastName.sendKeys(lastName);
+		WebElement inputUsername = driver.findElement(By.id("inputUsername"));
+		inputUsername.sendKeys(userName);
+		WebElement inputPassword = driver.findElement(By.id("inputPassword"));
+		inputPassword.sendKeys(password);
+		WebElement signUpButton = driver.findElement(By.id("signup"));
+		signUpButton.click();
 
+	}
 }
