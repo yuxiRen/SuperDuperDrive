@@ -168,5 +168,17 @@ class CloudStorageApplicationTests {
 			}
 		}
 		Assertions.assertTrue(editeSuccess);
+
+		//Note Deletion
+		notesTable = driver.findElement(By.id("userTable"));
+		notesList = notesTable.findElements(By.tagName("td"));
+		int notesSizeBeforeDelete = notesTable.findElements(By.tagName("th")).size();
+		WebElement element = notesList.get(0);
+		WebElement deleteElement = element.findElement(By.id("note-delete"));
+		wait.until(ExpectedConditions.elementToBeClickable(deleteElement)).click();
+		notesTable = driver.findElement(By.id("userTable"));
+		notesList = notesTable.findElements(By.tagName("th"));
+		int notesSizeAfterDelete = notesTable.findElements(By.tagName("th")).size();
+		Assertions.assertEquals(notesSizeBeforeDelete - 1, notesSizeAfterDelete);
 	}
 }
