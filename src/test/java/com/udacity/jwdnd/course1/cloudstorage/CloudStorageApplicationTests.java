@@ -122,11 +122,13 @@ class CloudStorageApplicationTests {
 		notedescription.sendKeys(noteDescription);
 		WebElement savechanges = driver.findElement(By.id("save-changes"));
 		savechanges.click();
-		Assertions.assertEquals("Home", driver.getTitle());
+		WebElement notesTable = driver.findElement(By.id("userTable"));
+		List<WebElement> notesList = notesTable.findElements(By.tagName("tbody"));
+		Assertions.assertEquals(1, notesList.size());
 
 		//Note Viewing
-		WebElement notesTable = driver.findElement(By.id("userTable"));
-		List<WebElement> notesList = notesTable.findElements(By.tagName("th"));
+		notesTable = driver.findElement(By.id("userTable"));
+		notesList = notesTable.findElements(By.tagName("th"));
 		Boolean created = false;
 		for (int i=0; i < notesList.size(); i++) {
 			WebElement element = notesList.get(i);
@@ -181,4 +183,5 @@ class CloudStorageApplicationTests {
 		int notesSizeAfterDelete = notesTable.findElements(By.tagName("th")).size();
 		Assertions.assertEquals(notesSizeBeforeDelete - 1, notesSizeAfterDelete);
 	}
+
 }
