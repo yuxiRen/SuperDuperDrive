@@ -18,6 +18,7 @@ import java.time.Duration;
 import java.util.List;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class CloudStorageApplicationTests {
 	private static String firstName = "rita";
 	private static String lastName = "ren";
@@ -50,6 +51,32 @@ class CloudStorageApplicationTests {
 		}
 	}
 
+	@Order(1)
+	@Test
+	public void signupPageTest() {
+		driver.get("http://localhost:" + this.port + "/signup");
+		Assertions.assertEquals("Sign Up", driver.getTitle());
+	}
+
+	@Order(2)
+	@Test
+	public void unauthorizedHomePageTest() {
+		driver.get("http://localhost:" + this.port + "/home");
+		Assertions.assertEquals("Login", driver.getTitle());
+	}
+	public void getLoginPageTest() throws InterruptedException {
+		driver.get("http://localhost:" + this.port + "/login");
+		WebElement inputUsername = driver.findElement(By.id("inputUsername"));
+		inputUsername.sendKeys(userName);
+		WebElement inputPassword = driver.findElement(By.id("inputPassword"));
+		inputPassword.sendKeys(password);
+		WebElement loginButton = driver.findElement(By.id("login"));
+		loginButton.click();
+		Thread.sleep(2000);
+		Assertions.assertEquals("Home", driver.getTitle());
+	}
+
+	@Order(3)
 	@Test
 	public void accessTest() throws InterruptedException {
 		WebDriverWait wait = new WebDriverWait(driver, 30);
@@ -73,35 +100,12 @@ class CloudStorageApplicationTests {
 		Thread.sleep(2000);
 		Assertions.assertEquals(true, driver.getCurrentUrl().contains("login?logout"));
 		//Unauthorized Access Restrictions
-		getUnauthorizedHomePageTest();
+		unauthorizedHomePageTest();
 	}
 
+	@Order(4)
 	@Test
-	public void getSignupPageTest() {
-		driver.get("http://localhost:" + this.port + "/signup");
-		Assertions.assertEquals("Sign Up", driver.getTitle());
-	}
-
-
-	public void getLoginPageTest() throws InterruptedException {
-		driver.get("http://localhost:" + this.port + "/login");
-		WebElement inputUsername = driver.findElement(By.id("inputUsername"));
-		inputUsername.sendKeys(userName);
-		WebElement inputPassword = driver.findElement(By.id("inputPassword"));
-		inputPassword.sendKeys(password);
-		WebElement loginButton = driver.findElement(By.id("login"));
-		loginButton.click();
-		Thread.sleep(2000);
-		Assertions.assertEquals("Home", driver.getTitle());
-	}
-	@Test
-	public void getUnauthorizedHomePageTest() {
-		driver.get("http://localhost:" + this.port + "/home");
-		Assertions.assertEquals("Login", driver.getTitle());
-	}
-
-	@Test
-	public void createTest() throws InterruptedException {
+	public void noteTest() throws InterruptedException {
 		WebDriverWait wait = new WebDriverWait (driver, 30);
 		JavascriptExecutor jse =(JavascriptExecutor) driver;
 		//Login
