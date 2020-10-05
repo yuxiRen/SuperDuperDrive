@@ -1,9 +1,7 @@
 package com.udacity.jwdnd.course1.cloudstorage;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
-import org.junit.FixMethodOrder;
 import org.junit.jupiter.api.*;
-import org.junit.runners.MethodSorters;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -64,7 +62,8 @@ class CloudStorageApplicationTests {
 		driver.get("http://localhost:" + this.port + "/home");
 		Assertions.assertEquals("Login", driver.getTitle());
 	}
-	public void getLoginPageTest() throws InterruptedException {
+
+	public void loginPageTest() throws InterruptedException {
 		driver.get("http://localhost:" + this.port + "/login");
 		WebElement inputUsername = driver.findElement(By.id("inputUsername"));
 		inputUsername.sendKeys(userName);
@@ -72,7 +71,7 @@ class CloudStorageApplicationTests {
 		inputPassword.sendKeys(password);
 		WebElement loginButton = driver.findElement(By.id("login"));
 		loginButton.click();
-		Thread.sleep(2000);
+		Thread.sleep(3000);
 		Assertions.assertEquals("Home", driver.getTitle());
 	}
 
@@ -93,7 +92,7 @@ class CloudStorageApplicationTests {
 		WebElement signUpButton = driver.findElement(By.id("signup"));
 		signUpButton.click();
 		//Login
-		getLoginPageTest();
+		loginPageTest();
 		//Logout
 		WebElement logoutButton = driver.findElement(By.id("logout"));
 		logoutButton.click();
@@ -109,7 +108,7 @@ class CloudStorageApplicationTests {
 		WebDriverWait wait = new WebDriverWait (driver, 30);
 		JavascriptExecutor jse =(JavascriptExecutor) driver;
 		//Login
-		getLoginPageTest();
+		loginPageTest();
 
 		//Note Creation
 		WebElement notesTab = driver.findElement(By.id("nav-notes-tab"));
@@ -144,7 +143,7 @@ class CloudStorageApplicationTests {
 		WebElement editElement = null;
 		for (int i = 0; i < notesOptionList.size(); i++) {
 			WebElement element = notesOptionList.get(i);
-			editElement = element.findElement(By.id("edit"));
+			editElement = element.findElement(By.id("note-edit"));
 			if (editElement != null){
 				break;
 			}
