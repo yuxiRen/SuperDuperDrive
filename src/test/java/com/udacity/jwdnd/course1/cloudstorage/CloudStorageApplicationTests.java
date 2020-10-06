@@ -204,5 +204,20 @@ class CloudStorageApplicationTests {
 		WebElement credentialTableTable = driver.findElement(By.id("credentialTable"));
 		List<WebElement> credentialList = credentialTableTable.findElements(By.tagName("tbody"));
 		Assertions.assertEquals(1, credentialList.size());
+
+		//Credential Viewing
+
+		WebElement credentialTable = driver.findElement(By.id("credentialTable"));
+		List<WebElement> credList = credentialTable.findElements(By.tagName("th"));
+		System.out.println("********"+credList.size());
+		Boolean created = false;
+		for (int i=0; i < credList.size(); i++) {
+			WebElement element = credList.get(i);
+			if (element.getAttribute("innerHTML").equals(userName)) {
+				created = true;
+				break;
+			}
+		}
+		Assertions.assertTrue(created);
 	}
 }
