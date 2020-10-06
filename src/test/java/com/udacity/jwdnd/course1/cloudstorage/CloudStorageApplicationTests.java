@@ -71,7 +71,7 @@ class CloudStorageApplicationTests {
 		inputPassword.sendKeys(password);
 		WebElement loginButton = driver.findElement(By.id("login"));
 		loginButton.click();
-		Thread.sleep(3000);
+		Thread.sleep(1000);
 		Assertions.assertEquals("Home", driver.getTitle());
 	}
 
@@ -102,8 +102,8 @@ class CloudStorageApplicationTests {
 		unauthorizedHomePageTest();
 	}
 
-	@Order(4)
-	@Test
+//	@Order(4)
+//	@Test
 	public void noteTest() throws InterruptedException {
 		WebDriverWait wait = new WebDriverWait (driver, 30);
 		JavascriptExecutor jse =(JavascriptExecutor) driver;
@@ -114,8 +114,8 @@ class CloudStorageApplicationTests {
 		WebElement notesTab = driver.findElement(By.id("nav-notes-tab"));
 		jse.executeScript("arguments[0].click()", notesTab);
 		wait.withTimeout(Duration.ofSeconds(30));
-		WebElement newNote = driver.findElement(By.id("newnote"));
-		wait.until(ExpectedConditions.elementToBeClickable(newNote)).click();
+		WebElement newNoteButton = driver.findElement(By.id("newnote"));
+		wait.until(ExpectedConditions.elementToBeClickable(newNoteButton)).click();
 		wait.until(ExpectedConditions.elementToBeClickable(By.id("note-title"))).sendKeys(noteTitle);
 		WebElement notedescription = driver.findElement(By.id("note-description"));
 		notedescription.sendKeys(noteDescription);
@@ -182,5 +182,27 @@ class CloudStorageApplicationTests {
 		int notesSizeAfterDelete = notesTable.findElements(By.tagName("th")).size();
 		Assertions.assertEquals(notesSizeBeforeDelete - 1, notesSizeAfterDelete);
 	}
-
+	@Order(5)
+	@Test
+	public void credentialTest() throws InterruptedException {
+		WebDriverWait wait = new WebDriverWait (driver, 30);
+		JavascriptExecutor jse =(JavascriptExecutor) driver;
+		//Login
+		loginPageTest();
+		//Credential Creation
+		WebElement credentialTab = driver.findElement(By.id("nav-credentials-tab"));
+		jse.executeScript("arguments[0].click()", credentialTab);
+		WebElement newCredential = driver.findElement(By.id("new-credential"));
+		wait.until(ExpectedConditions.elementToBeClickable(newCredential)).click();
+		wait.until(ExpectedConditions.elementToBeClickable(By.id("credential-url"))).sendKeys(credentialURL);
+		WebElement credUsername = driver.findElement(By.id("credential-username"));
+		credUsername.sendKeys(userName);
+		WebElement credPassword = driver.findElement(By.id("credential-password"));
+		credPassword.sendKeys(password);
+		WebElement submitButton = driver.findElement(By.id("submit-credential"));
+		wait.until(ExpectedConditions.elementToBeClickable(submitButton)).click();
+		WebElement credentialTableTable = driver.findElement(By.id("credentialTable"));
+		List<WebElement> credentialList = credentialTableTable.findElements(By.tagName("tbody"));
+		Assertions.assertEquals(1, credentialList.size());
+	}
 }
