@@ -26,6 +26,8 @@ class CloudStorageApplicationTests {
 	private static String newNoteTitle = "new Note";
 	private static String noteDescription = "example note description";
 	private static String credentialURL = "www.exampleCredentialURL.com";
+	private static String newCredentialUsername = "reny2.0";
+
 
 	@LocalServerPort
 	private int port;
@@ -209,7 +211,6 @@ class CloudStorageApplicationTests {
 
 		WebElement credentialTable = driver.findElement(By.id("credentialTable"));
 		List<WebElement> credList = credentialTable.findElements(By.tagName("th"));
-		System.out.println("********"+credList.size());
 		Boolean created = false;
 		for (int i=0; i < credList.size(); i++) {
 			WebElement element = credList.get(i);
@@ -219,5 +220,25 @@ class CloudStorageApplicationTests {
 			}
 		}
 		Assertions.assertTrue(created);
+
+		//Credential Editing
+		WebElement credsTable = driver.findElement(By.id("credentialTable"));
+		List<WebElement> credsList = credsTable.findElements(By.tagName("td"));
+		WebElement editElement = null;
+		for (int i = 0; i < credsList.size(); i++) {
+			WebElement element = credsList.get(i);
+			editElement = element.findElement(By.id("credential-edit"));
+			if (editElement != null){
+				break;
+			}
+		}
+		wait.until(ExpectedConditions.elementToBeClickable(editElement)).click();
+		credUsername = driver.findElement(By.id("credential-username"));
+		wait.until(ExpectedConditions.elementToBeClickable(credUsername));
+		credUsername.clear();
+		credUsername.sendKeys(newCredentialUsername);
+		WebElement saveChange = driver.findElement(By.id("submit-credential"));
+		wait.until(ExpectedConditions.elementToBeClickable(saveChange));
+		Assertions.assertEquals("Home", driver.getTitle());
 	}
 }
