@@ -203,13 +203,13 @@ class CloudStorageApplicationTests {
 		credPassword.sendKeys(password);
 		WebElement submitButton = driver.findElement(By.id("submit-credential"));
 		wait.until(ExpectedConditions.elementToBeClickable(submitButton)).click();
-		WebElement credentialTableTable = driver.findElement(By.id("credentialTable"));
-		List<WebElement> credentialList = credentialTableTable.findElements(By.tagName("tbody"));
+		WebElement credentialTable = driver.findElement(By.id("credentialTable"));
+		List<WebElement> credentialList = credentialTable.findElements(By.tagName("tbody"));
 		Assertions.assertEquals(1, credentialList.size());
 
 		//Credential Viewing
 
-		WebElement credentialTable = driver.findElement(By.id("credentialTable"));
+		credentialTable = driver.findElement(By.id("credentialTable"));
 		List<WebElement> credList = credentialTable.findElements(By.tagName("th"));
 		Boolean created = false;
 		for (int i=0; i < credList.size(); i++) {
@@ -237,8 +237,23 @@ class CloudStorageApplicationTests {
 		wait.until(ExpectedConditions.elementToBeClickable(credUsername));
 		credUsername.clear();
 		credUsername.sendKeys(newCredentialUsername);
-		WebElement saveChange = driver.findElement(By.id("submit-credential"));
-		wait.until(ExpectedConditions.elementToBeClickable(saveChange));
+		submitButton = driver.findElement(By.id("submit-credential"));
+		wait.until(ExpectedConditions.elementToBeClickable(submitButton)).click();
 		Assertions.assertEquals("Home", driver.getTitle());
+
+		//Credential Editing check
+		credsTable = driver.findElement(By.id("credentialTable"));
+		credsList = credsTable.findElements(By.tagName("th"));
+
+		Boolean editSuccess = false;
+		for (int i = 0; i < credsList.size(); i++) {
+			WebElement element = credsList.get(i);
+			System.out.println("!!!!!!!"+element.getAttribute("innerHTML"));
+			if (element.getAttribute("innerHTML").equals(newCredentialUsername)) {
+				editSuccess = true;
+				break;
+			}
+		}
+		Assertions.assertTrue(editSuccess);
 	}
 }
