@@ -180,7 +180,6 @@ class CloudStorageApplicationTests {
 		WebElement deleteElement = element.findElement(By.id("note-delete"));
 		wait.until(ExpectedConditions.elementToBeClickable(deleteElement)).click();
 		notesTable = driver.findElement(By.id("userTable"));
-		notesList = notesTable.findElements(By.tagName("th"));
 		int notesSizeAfterDelete = notesTable.findElements(By.tagName("th")).size();
 		Assertions.assertEquals(notesSizeBeforeDelete - 1, notesSizeAfterDelete);
 	}
@@ -248,12 +247,29 @@ class CloudStorageApplicationTests {
 		Boolean editSuccess = false;
 		for (int i = 0; i < credsList.size(); i++) {
 			WebElement element = credsList.get(i);
-			System.out.println("!!!!!!!"+element.getAttribute("innerHTML"));
 			if (element.getAttribute("innerHTML").equals(newCredentialUsername)) {
 				editSuccess = true;
 				break;
 			}
 		}
 		Assertions.assertTrue(editSuccess);
+
+		//Credential Deletion
+		credsTable = driver.findElement(By.id("credentialTable"));
+		credsList = credsTable.findElements(By.tagName("td"));
+		int credsListSizeBeforeDelete = credsTable.findElements(By.tagName("th")).size();
+		WebElement deleteElement = null;
+		for (int i = 0; i < credsList.size(); i++) {
+			WebElement element = credsList.get(i);
+			deleteElement = element.findElement(By.id("credential-delete"));
+			if (deleteElement != null){
+				break;
+			}
+		}
+		wait.until(ExpectedConditions.elementToBeClickable(deleteElement)).click();
+		credsTable = driver.findElement(By.id("credentialTable"));
+		int credsListSizeAfterDelete = credsTable.findElements(By.tagName("th")).size();
+		Assertions.assertEquals(credsListSizeBeforeDelete - 1, credsListSizeAfterDelete);
+
 	}
 }
