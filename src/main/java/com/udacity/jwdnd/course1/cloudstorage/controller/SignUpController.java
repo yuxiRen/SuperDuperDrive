@@ -5,6 +5,7 @@ import com.udacity.jwdnd.course1.cloudstorage.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -23,7 +24,7 @@ public class SignUpController {
     }
 
     @PostMapping
-    public String signup(User user, Model model) {
+    public String signup(@ModelAttribute("user") User user, Model model) {
         String error = null;
         //check whether username already exist
         if (!userService.isAvailable(user.getUsername())) {
@@ -40,8 +41,10 @@ public class SignUpController {
             model.addAttribute("signUpSuccess", true);
         } else {
             model.addAttribute("signUpError", error);
+            System.out.println("*******"+error);
             return "redirect:signup?error";
         }
-        return "redirect:signup?success";
+
+        return "redirect:login?success";
     }
 }
