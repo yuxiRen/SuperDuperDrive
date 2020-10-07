@@ -19,19 +19,12 @@ public class FileService {
         this.fileMapper = fileMapper;
     }
 
-//    public ResponseFile getResponseFile(File file) {
-//        String base64 = Base64.getEncoder().encodeToString(file.getFiledata());
-//        String dataURL = "data:" + file.getContenttype() + ";base64," + base64;
-//        return new ResponseFile(dataURL, file.getFileid(), file.getFilename());
-//    }
-
     public List<File> getAllFiles(int userid) throws Exception {
         List<File> files = fileMapper.findByUserId(userid);
         if (files == null) {
             throw new Exception();
         }
         return files;
-//        return files.stream().map(this::getResponseFile).collect(Collectors.toList());
     }
 
     public void addFile(MultipartFile fileUpload, int userid) throws IOException {

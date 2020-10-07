@@ -65,9 +65,26 @@ public class HomeController {
         return "redirect:/home";
     }
     @PostMapping("/file-upload")
-    public String uploadFile(@RequestParam("fileUpload") MultipartFile fileUpload, Model model, Authentication authentication) throws IOException {
+    public String uploadFile(@RequestParam("fileUpload") MultipartFile fileUpload, Model model, Authentication authentication) throws Exception {
+        String name = fileUpload.getOriginalFilename();
+        boolean nameUsed = false;
+        List<File> files = fileService.getAllFiles(getUserId(authentication));
+        int beforeUpload = files.size();
+        for (File file : files) {
+            if (file.getFilename().equals(name)) {
+                nameUsed = true;
+                break;
+            }
+        }
+        if (nameUsed) {
+            return "redirect:/home?error";
+        }
         this.fileService.addFile(fileUpload, getUserId(authentication));
-        return "redirect:/home";
+        int afterUpload = fileService.getAllFiles(getUserId(authentication)).size();
+        if (afterUpload == beforeUpload) {
+            return "redirect:/home?error";
+        }
+        return "redirect:/home?success";
     }
     @GetMapping("/download")
     public ResponseEntity download(@RequestParam String fileName, Authentication authentication) throws Exception {

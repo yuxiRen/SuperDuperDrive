@@ -41,7 +41,6 @@ public class SignUpController {
             model.addAttribute("signUpSuccess", true);
         } else {
             model.addAttribute("signUpError", error);
-            System.out.println("*******"+error);
             return "redirect:signup?error";
         }
 

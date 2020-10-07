@@ -26,6 +26,12 @@
         <div class="tab-content" id="nav-tabContent">
             <div class="tab-pane fade show active" id="nav-files" role="tabpanel" aria-labelledby="nav-files-tab">
                 <form action="#" enctype="multipart/form-data" method="POST" th:action="@{/file-upload}">
+                    <div class="alert alert-dark" th:if="${param.success}">
+                        You successfully upload this file!
+                    </div>
+                    <div class="alert alert-danger" th:if="${param.error}">
+                        <span>Upload failed!</span>
+                    </div>
                     <div class="container">
                         <div class="row" style="margin: 1em;">
                             <div class="col-sm-2">
