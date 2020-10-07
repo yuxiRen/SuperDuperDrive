@@ -43,7 +43,7 @@ public class HomeController {
         } else {
             this.noteService.addNote(note,getUserId(authentication));
         }
-        return "redirect:/home";
+        return "redirect:/result?success";
     }
     @GetMapping("/note/delete")
     public String deleteNote(@RequestParam Integer noteId) {
@@ -57,12 +57,12 @@ public class HomeController {
         } else {
             this.credentialService.addCredential(credential, getUserId(authentication));
         }
-        return "redirect:/home";
+        return "redirect:/result?success";
     }
     @GetMapping("/credential/delete")
     public String deleteCredential(@RequestParam Integer credentialId) {
         this.credentialService.deleteCredential(credentialId);
-        return "redirect:/home";
+        return "redirect:/home?deleteSuccess";
     }
     @PostMapping("/file-upload")
     public String uploadFile(@RequestParam("fileUpload") MultipartFile fileUpload, Model model, Authentication authentication) throws Exception {
