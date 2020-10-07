@@ -48,7 +48,7 @@ public class HomeController {
     @GetMapping("/note/delete")
     public String deleteNote(@RequestParam Integer noteId) {
         this.noteService.deleteNote(noteId);
-        return "redirect:/home";
+        return "redirect:/result?success";
     }
     @PostMapping("/credential")
     public String submitCredential(@ModelAttribute("credential") Credential credential, Model model, Authentication authentication) {
@@ -62,7 +62,7 @@ public class HomeController {
     @GetMapping("/credential/delete")
     public String deleteCredential(@RequestParam Integer credentialId) {
         this.credentialService.deleteCredential(credentialId);
-        return "redirect:/home?deleteSuccess";
+        return "redirect:/result?success";
     }
     @PostMapping("/file-upload")
     public String uploadFile(@RequestParam("fileUpload") MultipartFile fileUpload, Model model, Authentication authentication) throws Exception {
@@ -77,14 +77,14 @@ public class HomeController {
             }
         }
         if (nameUsed) {
-            return "redirect:/home?error";
+            return "redirect:/result?error";
         }
         this.fileService.addFile(fileUpload, getUserId(authentication));
         int afterUpload = fileService.getAllFiles(getUserId(authentication)).size();
         if (afterUpload == beforeUpload) {
-            return "redirect:/home?error";
+            return "redirect:/result?error";
         }
-        return "redirect:/home?success";
+        return "redirect:/result?success";
     }
     @GetMapping("/download")
     public ResponseEntity download(@RequestParam String fileName, Authentication authentication) throws Exception {
@@ -96,7 +96,7 @@ public class HomeController {
     @GetMapping("/file/delete")
     public String deleteFile(@RequestParam Integer fileId) {
         this.fileService.deleteFile(fileId);
-        return "redirect:/home";
+        return "result?success";
     }
 
     private Integer getUserId(Authentication authentication) {
