@@ -104,8 +104,8 @@ class CloudStorageApplicationTests {
 		unauthorizedHomePageTest();
 	}
 
-//	@Order(4)
-//	@Test
+	@Order(4)
+	@Test
 	public void noteTest() throws InterruptedException {
 		WebDriverWait wait = new WebDriverWait (driver, 30);
 		JavascriptExecutor jse =(JavascriptExecutor) driver;
