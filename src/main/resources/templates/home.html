@@ -149,7 +149,7 @@
                                 Example Credential URL
                             </td>
                             <th th:text="${credential.username}" >Example Credential Username</th>
-                            <td th:text="${credential.password}" >Example Credential Password</td>
+                            <td th:text="${encryptionService.encryptValue(credential.password, credential.key)}" >Example Credential Password</td>
                         </tr>
                         </tbody>
                     </table>
