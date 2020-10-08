@@ -98,7 +98,7 @@ class CloudStorageApplicationTests {
 		//Logout
 		WebElement logoutButton = driver.findElement(By.id("logout"));
 		logoutButton.click();
-		Thread.sleep(2000);
+		Thread.sleep(1000);
 		Assertions.assertEquals(true, driver.getCurrentUrl().contains("login?logout"));
 		//Unauthorized Access Restrictions
 		unauthorizedHomePageTest();
@@ -123,6 +123,10 @@ class CloudStorageApplicationTests {
 		notedescription.sendKeys(noteDescription);
 		WebElement savechanges = driver.findElement(By.id("save-changes"));
 		savechanges.click();
+		Thread.sleep(1000);
+		WebElement returnButton = driver.findElement(By.tagName("a"));
+		returnButton.click();
+
 		WebElement notesTable = driver.findElement(By.id("userTable"));
 		List<WebElement> notesList = notesTable.findElements(By.tagName("tbody"));
 		Assertions.assertEquals(1, notesList.size());
@@ -157,8 +161,10 @@ class CloudStorageApplicationTests {
 		noteTitle.sendKeys(newNoteTitle);
 		savechanges = driver.findElement(By.id("save-changes"));
 		savechanges.click();
-		Assertions.assertEquals("Home", driver.getTitle());
-
+		Assertions.assertEquals("Result", driver.getTitle());
+		Thread.sleep(1000);
+		returnButton = driver.findElement(By.tagName("a"));
+		returnButton.click();
 		//Note Editing Check
 		notesTable = driver.findElement(By.id("userTable"));
 		notesList = notesTable.findElements(By.tagName("th"));
@@ -179,6 +185,9 @@ class CloudStorageApplicationTests {
 		WebElement element = notesList.get(0);
 		WebElement deleteElement = element.findElement(By.id("note-delete"));
 		wait.until(ExpectedConditions.elementToBeClickable(deleteElement)).click();
+		Thread.sleep(1000);
+		returnButton = driver.findElement(By.tagName("a"));
+		returnButton.click();
 		notesTable = driver.findElement(By.id("userTable"));
 		int notesSizeAfterDelete = notesTable.findElements(By.tagName("th")).size();
 		Assertions.assertEquals(notesSizeBeforeDelete - 1, notesSizeAfterDelete);
@@ -202,6 +211,9 @@ class CloudStorageApplicationTests {
 		credPassword.sendKeys(password);
 		WebElement submitButton = driver.findElement(By.id("submit-credential"));
 		wait.until(ExpectedConditions.elementToBeClickable(submitButton)).click();
+		Thread.sleep(1000);
+		WebElement returnButton = driver.findElement(By.tagName("a"));
+		returnButton.click();
 		WebElement credentialTable = driver.findElement(By.id("credentialTable"));
 		List<WebElement> credentialList = credentialTable.findElements(By.tagName("tbody"));
 		Assertions.assertEquals(1, credentialList.size());
@@ -238,8 +250,10 @@ class CloudStorageApplicationTests {
 		credUsername.sendKeys(newCredentialUsername);
 		submitButton = driver.findElement(By.id("submit-credential"));
 		wait.until(ExpectedConditions.elementToBeClickable(submitButton)).click();
-		Assertions.assertEquals("Home", driver.getTitle());
-
+		Assertions.assertEquals("Result", driver.getTitle());
+		Thread.sleep(1000);
+		returnButton = driver.findElement(By.tagName("a"));
+		returnButton.click();
 		//Credential Editing check
 		credsTable = driver.findElement(By.id("credentialTable"));
 		credsList = credsTable.findElements(By.tagName("th"));
@@ -267,9 +281,11 @@ class CloudStorageApplicationTests {
 			}
 		}
 		wait.until(ExpectedConditions.elementToBeClickable(deleteElement)).click();
+		Thread.sleep(1000);
+		returnButton = driver.findElement(By.tagName("a"));
+		returnButton.click();
 		credsTable = driver.findElement(By.id("credentialTable"));
 		int credsListSizeAfterDelete = credsTable.findElements(By.tagName("th")).size();
 		Assertions.assertEquals(credsListSizeBeforeDelete - 1, credsListSizeAfterDelete);
-
 	}
 }
