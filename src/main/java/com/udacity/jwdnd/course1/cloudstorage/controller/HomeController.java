@@ -20,6 +20,7 @@ public class HomeController {
     private CredentialService credentialService;
     private FileService fileService;
     private EncryptionService encryptionService;
+    private static final int FILESIZE = 1000000;
     public HomeController(NoteService noteService, UserService userService, CredentialService credentialService, FileService fileService, EncryptionService encryptionService) {
         this.noteService = noteService;
         this.userService = userService;
@@ -76,7 +77,7 @@ public class HomeController {
                 break;
             }
         }
-        if (nameUsed) {
+        if (nameUsed || fileUpload.getSize() > FILESIZE) {
             return "redirect:/result?error";
         }
         this.fileService.addFile(fileUpload, getUserId(authentication));
